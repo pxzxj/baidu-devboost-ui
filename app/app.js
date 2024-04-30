@@ -15,7 +15,7 @@ export default function App ({children}) {
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
                 <div className="demo-logo-vertical" >
-                    ponshine-devboost
+                    baidu-devboost
                 </div>
                 <Menu mode="inline">
                     <Menu.Item key="jsonflatter"><Link href="/jsonflatter" />Json解析</Menu.Item>
