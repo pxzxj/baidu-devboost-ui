@@ -3,24 +3,21 @@ function parseTable(echo, parseConfigurer) {
     const lines = echo.split('\n');
     const fields = parseConfigurer.fields;
 
-    // Construct the regular expression for the table header
-    const theadPattern = fields.map(field => field.matchName).map(escapeRegexCharacter).join(delimiter);
+    let theadPattern = fields.map(field => field.matchName).map(escapeRegexCharacter).join(delimiter);
+    theadPattern = new RegExp(`^${theadPattern}$`)
 
-    // Construct multiple patterns for the table body, handling nullable fields
     const tbodyPatterns = [];
     if (fields.every(field => field.valuePattern)) {
         const valuePatterns = fields.map((field, index) =>
             `(${field.valuePattern})${field.nullable ? '?' : ''}`
         );
 
-        // Add a pattern that matches all fields
-        tbodyPatterns.push(new RegExp(valuePatterns.join(delimiter)));
+        tbodyPatterns.push(new RegExp(`^${valuePatterns.join(delimiter)}$`));
 
-        // Add patterns for fewer fields if there are nullable fields at the end
         for (let i = fields.length - 1; i > 0; i--) {
             const field = fields[i];
             if (field.nullable) {
-                tbodyPatterns.push(new RegExp(valuePatterns.slice(0, i).join(delimiter)));
+                tbodyPatterns.push(new RegExp(`^${valuePatterns.slice(0, i).join(delimiter)}$`));
             } else {
                 break;
             }
@@ -31,7 +28,7 @@ function parseTable(echo, parseConfigurer) {
     const list = [];
 
     for (const line of lines) {
-        if (line.match(theadPattern)) {
+        if (theadPattern.test(line)) {
             lineInTable = true;
         } else if (lineInTable) {
             if (tbodyPatterns.length > 0) {
@@ -42,8 +39,7 @@ function parseTable(echo, parseConfigurer) {
                     if (matcher) {
                         const map = {};
                         for (let j = 0; j < fields.length; j++) {
-                            const value = (j < fields.length - i) ? matcher[j + 1] : "";
-                            map[fields[j].name] = value;
+                            map[fields[j].name] = (j < fields.length - i) ? matcher[j + 1] : "";
                         }
                         list.push(map);
                         lineInTable = true;
