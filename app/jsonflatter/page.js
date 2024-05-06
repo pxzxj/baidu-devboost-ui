@@ -165,7 +165,7 @@ function App() {
 function calculateTreeData(jsonText) {
     let jsonObj = null;
     try {
-        jsonObj = JSON.parse(jsonText)
+        jsonObj = JSON.parse(jsonText);
     } catch (e) {
 
     }

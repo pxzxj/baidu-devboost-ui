@@ -137,8 +137,8 @@ const App = ({dataSource, setDataSource}) => {
             render: (_, record) =>
                 dataSource.length >= 1 ? (
                     <>
-                        <Button onClick={() => handleDelete(record.key)}>Delete</Button>
-                        <Button onClick={() => handleInsert(record.key)}>Add</Button>
+                        <Button onClick={() => handleDelete(record.key)}>-</Button>
+                        <Button onClick={() => handleInsert(record.key)}>+</Button>
                     </>
                 ) : null,
         },

@@ -1,3 +1,21 @@
+export default function doParse(echo, parseConfigurer) {
+    // Convert ignoreLinePatterns to a list of compiled regex patterns
+    const ignoreLinePatterns = parseConfigurer.ignoreLinePatterns.map(pattern => new RegExp(pattern));
+
+    // Process the echo string
+    echo = echo.replace('\r\n', '\n').split('\n')
+        .map(line => line.trim())
+        .filter(line => line !== '')
+        .filter(line => !ignoreLinePatterns.some(pattern => pattern.test(line)))
+        .join('\n');
+
+    let list = parseTable(echo, parseConfigurer);
+    if (list.length === 0) {
+        list = parseKV(echo, parseConfigurer);
+    }
+    return list;
+}
+
 function parseTable(echo, parseConfigurer) {
     const delimiter = parseConfigurer.delimiter;
     const lines = echo.split('\n');
@@ -30,7 +48,9 @@ function parseTable(echo, parseConfigurer) {
     for (const line of lines) {
         if (theadPattern.test(line)) {
             lineInTable = true;
+            console.log('匹配到头');
         } else if (lineInTable) {
+            console.log(tbodyPatterns);
             if (tbodyPatterns.length > 0) {
                 lineInTable = false;
                 for (let i = 0; i < tbodyPatterns.length; i++) {
@@ -47,7 +67,10 @@ function parseTable(echo, parseConfigurer) {
                     }
                 }
             } else {
-                const tokens = line.split(delimiter);
+                const tokens = line.split(new RegExp(delimiter));
+                console.log(fields);
+                console.log('delimiter:' + delimiter);
+                console.log(tokens);
                 if (tokens.length === fields.length) {
                     const map = {};
                     for (let i = 0; i < tokens.length; i++) {
