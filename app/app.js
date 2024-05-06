@@ -5,8 +5,6 @@ import {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import Link from "next/link";
-import Image from "next/image";
-import logoPng from '../public/logo.png';
 
 const { Header, Sider, Content } = Layout;
 export default function App ({children}) {
@@ -18,10 +16,7 @@ export default function App ({children}) {
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
                 <div className="demo-logo-vertical" >
-                    <Image src={logoPng} style={{
-                        width: '100%',
-                        height: 'auto',
-                    }}/>
+                    <img src="https://pxzxj.github.io/articles/images/logo.png"  alt="logo" style={{width: '100%', height: 'auto'}}/>
                 </div>
                 <Menu mode="inline">
                     <Menu.Item key="jsonflatter"><Link href="/jsonflatter" />Json解析</Menu.Item>
