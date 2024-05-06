@@ -70,17 +70,18 @@ function App() {
         setIgnoreLinePatterns(ignoreLinePatterns.filter(item => item !== value));
     }
 
-    const renderIgnoreLinePatternItem = (value) => (
-        <List.Item
+    const renderIgnoreLinePatternItem = (value) => {
+        const index = ignoreLinePatterns.indexOf(value) + '';
+        return (<List.Item
             actions={[
-                <Button type="link" onClick={() => deleteIgnoreLinePattern(value)}>
+                <Button key={index} type="link" onClick={() => deleteIgnoreLinePattern(value)}>
                     删除
                 </Button>,
             ]}
         >
             {value}
-        </List.Item>
-    );
+        </List.Item>)
+    };
 
     const outputToJson = () => {
         const jsonConfigObj = {};
