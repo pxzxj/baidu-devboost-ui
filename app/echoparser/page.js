@@ -1,6 +1,6 @@
 'use client'
 
-import {Button, Divider, Flex, Form, Input, InputNumber, List, message, Popover, Table, Tabs} from "antd";
+import {Button, Divider, Flex, Form, Input, InputNumber, List, message, Popover, Space, Table, Tabs} from "antd";
 import {React, useState, useRef} from "react";
 import PatternFieldTable from './fieldsTable4typepattern';
 import FieldFieldTable from './fieldsTable4typefield';
@@ -136,6 +136,8 @@ function App() {
                 setActiveKey('field');
                 if (jsonConfigObj.delimiter) {
                     setDelimiter(jsonConfigObj.delimiter);
+                } else {
+                    setDelimiter(DEFAULT_DELIMITER);
                 }
                 if (jsonConfigObj.ignoreLinePatterns) {
                     setIgnoreLinePatterns(jsonConfigObj.ignoreLinePatterns);
@@ -272,11 +274,12 @@ function App() {
                                     </Form.Item>
                                 )}
                             <Form.Item>
-                                <Button type="primary" onClick={parseField}>解析</Button>
-                                &nbsp;
-                                <Popover overlayInnerStyle={{width: '400px'}} content={buildSchema()} title="Schema" trigger="click">
-                                    <Button>建表语句</Button>
-                                </Popover>
+                                <Space>
+                                    <Button type="primary" onClick={parseField}>解析</Button>
+                                    <Popover overlayInnerStyle={{width: '400px'}} content={buildSchema()} title="Schema" trigger="click">
+                                        <Button>建表语句</Button>
+                                    </Popover>
+                                </Space>
                             </Form.Item>
                             <Form.Item>
                                 <FieldFieldTable dataSource={fieldFieldTableDataSource} setDataSource={setFieldFieldTableDataSource} />
@@ -289,11 +292,12 @@ function App() {
                                 <Input value={pattern} onChange={(e) => setPattern(e.target.value)}/>
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" onClick={parsePattern}>解析</Button>
-                                &nbsp;
-                                <Popover overlayInnerStyle={{width: '400px'}} content={buildSchema()} title="Schema" trigger="click">
-                                    <Button>建表语句</Button>
-                                </Popover>
+                                <Space>
+                                    <Button type="primary" onClick={parsePattern}>解析</Button>
+                                    <Popover overlayInnerStyle={{width: '400px'}} content={buildSchema()} title="Schema" trigger="click">
+                                        <Button>建表语句</Button>
+                                    </Popover>
+                                </Space>
                             </Form.Item>
                             <Form.Item>
                                 <PatternFieldTable dataSource={patternFieldTableDataSource} setDataSource={setPatternFieldTableDataSource} />

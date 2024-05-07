@@ -16,12 +16,13 @@ export default function App ({children}) {
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
                 <div className="demo-logo-vertical" >
-                    <img src="https://pxzxj.github.io/articles/images/logo.png"  alt="logo" style={{width: '100%', height: 'auto'}}/>
+                    <Link href="/">
+                        <img src="https://pxzxj.github.io/articles/images/logo.png"  alt="logo" style={{width: '100%', height: 'auto'}}/>
+                    </Link>
                 </div>
                 <Menu mode="inline">
                     <Menu.Item key="jsonflatter"><Link href="/jsonflatter" />Json解析</Menu.Item>
                     <Menu.Item key="echoparser"><Link href="/echoparser" />回显解析</Menu.Item>
-                    <Menu.Item key="encrypt"><Link href="/encrypt" />加解密</Menu.Item>
                     <Menu.Item key="connect"><Link href="/connect" />设备连接</Menu.Item>
                 </Menu>
             </Sider>

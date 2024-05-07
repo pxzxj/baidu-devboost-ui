@@ -2,7 +2,7 @@
 
 import { React, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
-import {Button, Flex, Input, Tree, Space, Table, Tag, Dropdown, Menu, Switch, Divider} from 'antd';
+import {Button, Flex, Input, Tree, Space, Table, Tag, Dropdown, Menu, Switch, Divider, message} from 'antd';
 
 import JSONFormat from 'json-format';
 
@@ -22,7 +22,7 @@ function App() {
     const [treeData, setTreeData] = useState([{title: 'ROOT', key: 'ROOT', path: ''}]);
     const [tableData, setTableData] = useState(DEFAULT_TABLE_DATA);
     const [flatCfgObj, setFlatCfgObj] = useState({ignoreFields: [], flatFields: [], joinFields: [], mergeFields: [], camelToUnderscore: true});
-
+    const [messageApi, contextHolder] = message.useMessage();
     const flatCfgStr = JSONFormat(flatCfgObj);
     const items = [
         {
@@ -125,8 +125,29 @@ function App() {
         flatCfgObjCopy.camelToUnderscore = value;
         setFlatCfgObj(flatCfgObjCopy);
     }
+
+    const calculateTreeData = (jsonText) => {
+        let jsonObj = null;
+        try {
+            jsonObj = JSON.parse(jsonText);
+        } catch (e) {
+
+        }
+        if (jsonObj == null) {
+            messageApi.open({
+                type: 'error',
+                content: '非法JSON'
+            });
+            return [{title: 'ROOT', key: 'ROOT', path: ''}];
+        }
+        let treeData  = [{title: 'ROOT', key: 'ROOT', path: ''}];
+        traverseJsonObj(jsonObj, treeData[0], 'ROOT', '');
+        return treeData;
+    }
+
     return (
         <Flex wrap="wrap" gap="middle" vertical={false}>
+            {contextHolder}
             <div style={{ width: '33%'}} >
                 <TextArea value = {jsonText}
                           onChange = {(e) => setJsonText(e.target.value)}
@@ -160,22 +181,6 @@ function App() {
             </div>
         </Flex>
     );
-}
-
-function calculateTreeData(jsonText) {
-    let jsonObj = null;
-    try {
-        jsonObj = JSON.parse(jsonText);
-    } catch (e) {
-
-    }
-    if (jsonObj == null) {
-        alert('illegal json');
-        return [{title: 'ROOT', key: 'ROOT', path: ''}];
-    }
-    let treeData  = [{title: 'ROOT', key: 'ROOT', path: ''}];
-    traverseJsonObj(jsonObj, treeData[0], 'ROOT', '');
-    return treeData;
 }
 
 /**
