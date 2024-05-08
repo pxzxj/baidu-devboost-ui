@@ -9,6 +9,7 @@ import doParseField from './field-based-parser';
 import doParsePattern from './pattern-based-parser';
 
 import JSONFormat from 'json-format';
+import {MinusCircleOutlined} from "@ant-design/icons";
 
 
 const {TabPane} = Tabs;
@@ -74,9 +75,7 @@ function App() {
         const index = ignoreLinePatterns.indexOf(value) + '';
         return (<List.Item
             actions={[
-                <Button key={index} type="link" onClick={() => deleteIgnoreLinePattern(value)}>
-                    删除
-                </Button>,
+                <MinusCircleOutlined key={index} className="dynamic-delete-button" onClick={() => deleteIgnoreLinePattern(value)}/>,
             ]}
         >
             {value}
@@ -252,14 +251,17 @@ function App() {
                     <TabPane tab="字段型" key="field">
                         <Form name="fieldForm" labelAlign="left">
                             <Form.Item label="分隔符" name="delimiter"><Input style={{width: '150px'}} defaultValue={delimiter} onChange={(e) => setDelimiter(e.target.value)}/></Form.Item>
-                            <Form.Item>
-                                最小行数：&nbsp;
-                                        <InputNumber style={{width: '50px'}} min={1} max={1000} defaultValue={minLineCount} onChange={(v) => setMinLineCount(v)}/>
-                                最小字段数：&nbsp;
-                                        <InputNumber style={{width: '50px'}} min={1} max={1000} defaultValue={minFieldCount} onChange={(v) => setMinFieldCount(v)}/>
-                                &nbsp;
-                                        <Button onClick={handleDetect}>自动识别</Button>
-                            </Form.Item>
+                            <Space style={{display: 'flex', marginBottom: 8,}} align="baseline">
+                                <Form.Item label="最小行数">
+                                    <InputNumber style={{width: '50px'}} min={1} max={1000} defaultValue={minLineCount} onChange={(v) => setMinLineCount(v)}/>
+                                </Form.Item>
+                                <Form.Item label="最小字段数">
+                                    <InputNumber style={{width: '50px'}} min={1} max={1000} defaultValue={minFieldCount} onChange={(v) => setMinFieldCount(v)}/>
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button onClick={handleDetect}>自动识别</Button>
+                                </Form.Item>
+                            </Space>
                             <Form.Item>
                                 <Input style={{width: '200px'}} value={ignoreLinePatternValue} onChange={(e) => setIgnoreLinePatternValue(e.target.value)}/> <Button onClick={addIgnoreLinePattern}>忽略行</Button>
                             </Form.Item>

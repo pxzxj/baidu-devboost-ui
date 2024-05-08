@@ -1,8 +1,50 @@
 'use client'
 
-import {Button, Flex, Form, Input, List, Modal, Radio, Select, Space} from "antd";
-import {React, useState} from "react";
+import {Button, Flex, Form, Input, InputNumber, List, Modal, Radio, Select, Space} from "antd";
+import {React, useEffect, useRef, useState} from "react";
 import {PlusOutlined} from "@ant-design/icons";
+import EditableTag from './editableTag';
+
+// reset form fields when modal is form, closed
+const useResetFormOnCloseModal = ({ form, open }) => {
+    const prevOpenRef = useRef();
+    useEffect(() => {
+        prevOpenRef.current = open;
+    }, [open]);
+    const prevOpen = prevOpenRef.current;
+    useEffect(() => {
+        if (!open && prevOpen) {
+            form.resetFields();
+        }
+    }, [form, prevOpen, open]);
+};
+
+const ModalForm = ({ open, onCancel, onOk }) => {
+    const [successFlags, setSuccessFlags] = useState([]);
+    const [failFlags, setFailFlags] = useState([]);
+    const [form] = Form.useForm();
+    useResetFormOnCloseModal({
+        form,
+        open,
+    });
+    return (
+        <Modal title="指令详情" open={open} onOk={onOk} onCancel={onCancel}>
+            <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600}}>
+                <Form.Item name="command" label="命令"><Input /></Form.Item>
+                <Form.Item name="timeoutMilliSeconds" label="超时时间"><InputNumber /></Form.Item>
+                <Form.Item name="successFlags" label="成功标识">
+                    <EditableTag tags={successFlags} setTags={setSuccessFlags} color="green" />
+                </Form.Item>
+                <Form.Item name="failFlags" label="失败标识">
+                    <EditableTag tags={failFlags} setTags={setFailFlags} color="red" />
+                </Form.Item>
+                <Form.Item name="enter" label="回车符">
+                    <Select showSearch options={[{value: '\n', label: '\\n',}, {value: '\r\n', label: '\\r\\n'}]} />
+                </Form.Item>
+            </Form>
+        </Modal>
+    );
+};
 
 function App() {
     const { TextArea } = Input;
@@ -35,7 +77,7 @@ function App() {
 
     return (<Flex wrap="wrap" gap="middle" vertical={false}>
         <div style={{ width: '49%'}} >
-            <Form>
+            <Form name="basic" labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600}}>
                 <Form.Item label="类型">
                     <Radio.Group name="type" onChange={(e) => setType(e.target.value)} value={type}>
                         <Space>
@@ -76,16 +118,8 @@ function App() {
                 </Form.Item>
 
             </Form>
-            <Modal title="Basic Modal" open={isPccModalOpen} onOk={() => setIsPccModalOpen(false)} onCancel={() => setIsPccModalOpen(false)}>
-                <p>Some contents111...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-            </Modal>
-            <Modal title="Basic Modal" open={isPlcModalOpen} onOk={() => setIsPlcModalOpen(false)} onCancel={() => setIsPlcModalOpen(false)}>
-                <p>Some contents222...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-            </Modal>
+            <ModalForm open={isPccModalOpen} onOk={() => setIsPccModalOpen(false)} onCancel={() => setIsPccModalOpen(false)} />
+            <ModalForm open={isPlcModalOpen} onOk={() => setIsPlcModalOpen(false)} onCancel={() => setIsPlcModalOpen(false)} />
         </div>
         <div style={{ width: '5%'}}>
             <br/>
