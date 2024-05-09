@@ -68,9 +68,6 @@ function parseTable(echo, parseConfigurer) {
                 }
             } else {
                 const tokens = line.split(new RegExp(delimiter));
-                console.log(fields);
-                console.log('delimiter:' + delimiter);
-                console.log(tokens);
                 if (tokens.length === fields.length) {
                     const map = {};
                     for (let i = 0; i < tokens.length; i++) {
