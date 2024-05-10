@@ -465,7 +465,7 @@ function App() {
             <Button onClick={inputFromJson}>&lt;json</Button>
         </div>
         <div style={{ width: '44%'}} >
-            <TextArea autoSize={{ minRows: 10, maxRows: 15 }} value={jsonConfig} onChange={(e) => setJsonConfig(e.target.value)}/>
+            <TextArea autoSize={{ minRows: 10, maxRows: 30 }} value={jsonConfig} onChange={(e) => setJsonConfig(e.target.value)}/>
         </div>
     </Flex>)
 }
