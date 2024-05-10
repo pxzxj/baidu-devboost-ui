@@ -34,11 +34,3 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## 设备连接
-
-* 编辑连接后指令和登出前指令，考虑与新增共用弹窗
-* 根据连接类型展示表单的一部分
-* Json互转
-* 考虑端口和超时时间可能为变量的情况
-* 提示保活命令是一个空格
