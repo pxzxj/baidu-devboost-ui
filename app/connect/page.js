@@ -341,7 +341,7 @@ function App() {
     };
     return (<Flex wrap="wrap" gap="middle" vertical={false}>
         {contextHolder}
-        <div style={{ width: '49%'}} >
+        <div style={{ width: '47%'}} >
             <Form name="basic" form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600}}
                   initialValues={DEFAULT_CONNECT_CONFIG}>
                 <Form.Item label="类型" name="type">
