@@ -99,7 +99,7 @@ function parseKV(echo, parseConfigurer) {
             const matchName = fields[j].matchName;
             const delimiter = parseConfigurer.delimiter;
 
-            let value = lines[i + j].replace(new RegExp(`^${matchName}${delimiter}`), '');
+            let value = lines[i + j].replace(new RegExp(`^${escapeRegexCharacter(matchName)}${delimiter}`), '');
 
             if (lines[i + j] !== value) {
                 map[fieldName] = value;
